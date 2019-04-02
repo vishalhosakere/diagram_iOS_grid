@@ -205,17 +205,16 @@ class processView: UIView , UIGestureRecognizerDelegate {
     }
     
     
-    func createCircles(){
-        let cir1 = CircleView(frame: CGRect(x: self.center.x - (self.bounds.size.width / 2) - 40 , y: self.center.y - 20, width: 40, height: 40), isSide: sides.left.rawValue)//left
-        let cir2 = CircleView(frame: CGRect(x: self.center.x - 20 , y: self.center.y - (self.bounds.size.height / 2) - 40, width: 40, height: 40), isSide: sides.top.rawValue)
-        let cir3 = CircleView(frame: CGRect(x: self.center.x + (self.bounds.size.width / 2) , y: self.center.y - 20, width: 40, height: 40), isSide: sides.right.rawValue)
-        let cir4 = CircleView(frame: CGRect(x: self.center.x - 20 , y: self.center.y + (self.bounds.size.height / 2) , width: 40, height: 40), isSide: sides.bottom.rawValue)
+    func createCircles(_ id1: Int, _ id2: Int, _ id3: Int,  _ id4: Int){
+        let cir1 = CircleView(frame: CGRect(x: self.center.x - (self.bounds.size.width / 2) - 40 , y: self.center.y - 20, width: 40, height: 40), isSide: sides.left.rawValue, withID: id1)//left
+        let cir2 = CircleView(frame: CGRect(x: self.center.x - 20 , y: self.center.y - (self.bounds.size.height / 2) - 40, width: 40, height: 40), isSide: sides.top.rawValue, withID: id2)
+        let cir3 = CircleView(frame: CGRect(x: self.center.x + (self.bounds.size.width / 2) , y: self.center.y - 20, width: 40, height: 40), isSide: sides.right.rawValue, withID: id3)
+        let cir4 = CircleView(frame: CGRect(x: self.center.x - 20 , y: self.center.y + (self.bounds.size.height / 2) , width: 40, height: 40), isSide: sides.bottom.rawValue, withID: id4)
         
         cir1.mainPoint = CGPoint(x: self.center.x - (self.bounds.size.width / 2) , y: self.center.y)
         cir2.mainPoint = CGPoint(x: self.center.x  , y: self.center.y - (self.bounds.size.height / 2))
         cir3.mainPoint = CGPoint(x: self.center.x + (self.bounds.size.width / 2) , y: self.center.y)
         cir4.mainPoint = CGPoint(x: self.center.x , y: self.center.y + (self.bounds.size.height / 2))
-        
         cir1.myView = self
         cir2.myView = self
         cir3.myView = self
@@ -260,8 +259,13 @@ class processView: UIView , UIGestureRecognizerDelegate {
                 //                newPath.move(to: circle.mainPoint!)
                 //                newPath.addLine(to: outGoingCircle.mainPoint!)
                 //                line.path = newPath.cgPath
+                //                if !line.setAlternatePath{
                 line.path = circle.getPath(circle: circle.outGoingCircle!)
-                
+                line.thinArrow.path = circle.getPath(circle: circle.outGoingCircle!, getAlternate: true)
+                //                }else{
+                //                    line.alternatePath = circle.getPath(circle: circle.outGoingCircle!)
+                //                    line.path = circle.getPath(circle: circle.outGoingCircle!, getAlternate: true)
+                //                }
             }
             
             if let inComingCircle = circle.inComingCircle, let line = circle.inComingLine, let path = circle.inComingLine?.path {
@@ -270,7 +274,13 @@ class processView: UIView , UIGestureRecognizerDelegate {
                 //                newPath.move(to: inComingCircle.mainPoint!)
                 //                newPath.addLine(to: circle.mainPoint!)
                 //                line.path = newPath.cgPath
+                //                if !line.setAlternatePath{
                 line.path = circle.inComingCircle!.getPath(circle: circle)
+                line.thinArrow.path = circle.inComingCircle!.getPath(circle: circle, getAlternate: true)
+                //                }else{
+                //                    line.alternatePath = circle.inComingCircle!.getPath(circle: circle)
+                //                    line.path = circle.inComingCircle!.getPath(circle: circle, getAlternate: true)
+                //                }
             }
         }
     }
@@ -504,25 +514,4 @@ class processView: UIView , UIGestureRecognizerDelegate {
     
     
     
-}
-
-
-
-extension FloatingPoint {
-    func rounded(to value: Self, roundingRule: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Self{
-        return (self / value).rounded(roundingRule) * value
-        
-    }
-}
-
-extension CGPoint {
-    func rounded(to value: CGFloat, roundingRule: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> CGPoint{
-        return CGPoint(x: CGFloat((self.x / value).rounded(.toNearestOrAwayFromZero) * value), y: CGFloat((self.y / value).rounded(.toNearestOrAwayFromZero) * value))
-    }
-}
-
-extension CGRect {
-    func rounded(to value: CGFloat, roundingRule: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> CGRect{
-        return CGRect(x: self.origin.x, y: self.origin.y, width: CGFloat((self.width / value).rounded(.toNearestOrAwayFromZero) * value), height: CGFloat((self.height / value).rounded(.toNearestOrAwayFromZero) * value))
-    }
 }

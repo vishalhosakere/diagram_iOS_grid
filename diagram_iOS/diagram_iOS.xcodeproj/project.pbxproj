@@ -28,6 +28,8 @@
 		3FC956812244C44100FF31B2 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9567A2244C44100FF31B2 /* CircleView.swift */; };
 		3FC956822244C44100FF31B2 /* ShapeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC9567B2244C44100FF31B2 /* ShapeCell.swift */; };
 		3FC956842244C44A00FF31B2 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC956832244C44A00FF31B2 /* Protocols.swift */; };
+		596D175A2252F7FC00ABE3B5 /* arrow3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D17592252F7FC00ABE3B5 /* arrow3.swift */; };
+		596D175C2252FCB900ABE3B5 /* ArrowShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D175B2252FCB900ABE3B5 /* ArrowShape.swift */; };
 		59EB1BCF22498A4A0059C3D5 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EB1BCE22498A4A0059C3D5 /* GridView.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +57,8 @@
 		3FC9567A2244C44100FF31B2 /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		3FC9567B2244C44100FF31B2 /* ShapeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeCell.swift; sourceTree = "<group>"; };
 		3FC956832244C44A00FF31B2 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		596D17592252F7FC00ABE3B5 /* arrow3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = arrow3.swift; sourceTree = "<group>"; };
+		596D175B2252FCB900ABE3B5 /* ArrowShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowShape.swift; sourceTree = "<group>"; };
 		59EB1BCE22498A4A0059C3D5 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,6 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				3FC956772244C44100FF31B2 /* Arrow.swift */,
+				596D175B2252FCB900ABE3B5 /* ArrowShape.swift */,
+				596D17592252F7FC00ABE3B5 /* arrow3.swift */,
 				3FC9567A2244C44100FF31B2 /* CircleView.swift */,
 				3FC956782244C44100FF31B2 /* PathView.swift */,
 				3FC956762244C44100FF31B2 /* PDFExtension.swift */,
@@ -225,6 +231,7 @@
 				3FC956842244C44A00FF31B2 /* Protocols.swift in Sources */,
 				3FC9567F2244C44100FF31B2 /* PathView.swift in Sources */,
 				3FC9566C2244C42C00FF31B2 /* MenuViewController.swift in Sources */,
+				596D175C2252FCB900ABE3B5 /* ArrowShape.swift in Sources */,
 				3FC9567D2244C44100FF31B2 /* PDFExtension.swift in Sources */,
 				3FC9566E2244C42C00FF31B2 /* ContainerViewController.swift in Sources */,
 				3FC956722244C43600FF31B2 /* Node.swift in Sources */,
@@ -235,6 +242,7 @@
 				3F95C839224661C0002A739B /* MenuOption.swift in Sources */,
 				3FC956502244C3E500FF31B2 /* AppDelegate.swift in Sources */,
 				3FC956822244C44100FF31B2 /* ShapeCell.swift in Sources */,
+				596D175A2252F7FC00ABE3B5 /* arrow3.swift in Sources */,
 				3FC9566A2244C42C00FF31B2 /* HomeViewController.swift in Sources */,
 				3FC9567E2244C44100FF31B2 /* Arrow.swift in Sources */,
 			);
