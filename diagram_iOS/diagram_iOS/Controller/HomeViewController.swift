@@ -469,6 +469,10 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
         
         for view in data.views{
             data.viewsAndData[view]?.text = view.textView.text
+            data.viewsAndData[view]?.x = Double(view.frame.origin.x)
+            data.viewsAndData[view]?.y = Double(view.frame.origin.y)
+            data.viewsAndData[view]?.width = Double(view.frame.width)
+            data.viewsAndData[view]?.height = Double(view.frame.height)
             allData.allViews.append(data.viewsAndData[view]!)
         }
         
