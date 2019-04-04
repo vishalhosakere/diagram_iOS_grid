@@ -10,3 +10,8 @@ protocol HomeControllerDelegate {
     
     func handleMenuToggle()
 }
+
+
+protocol setTimeControllerDelegate {
+    func setCountdown(with value : Double)
+}

@@ -25,6 +25,8 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
     private var slideView : UIView!
     private let height = UIScreen.main.bounds.height
     private let width = UIScreen.main.bounds.width
+    private var isTimeSet = false
+    private var countdownValue: Double?
     
     //drop variables
     private let shapes = ["rectangle", "triangle", "circle", "rhombus"]
@@ -39,7 +41,7 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
     // MARK: - Integration Properties
     
     var scrollView: UIScrollView?
-//    var dropZone: UIView?
+    //    var dropZone: UIView?
     var gridView: GridView!
     //variables that falicitate drawing arrows between two pluses(circle view with plus image inside)
     var firstCircle : CircleView? = nil
@@ -62,7 +64,7 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
     // To add the left bar button to bring up the Menu
     func configureNavigationBar()
     {
-
+        
         navigationController?.navigationBar.barTintColor = UIColor.darkGray
         navigationController?.navigationBar.barStyle = .blackTranslucent
         navigationItem.title = "Excelsior"
@@ -150,7 +152,15 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
         loadButton.addGestureRecognizer(loadGesture)
         
         
+        let bottleneckButton = UIButton(frame: CGRect(x: self.view.frame.width - 430, y: 60, width: 100, height: 40))
+        bottleneckButton.setTitle("Bottleneck", for: UIControl.State.normal)
+        bottleneckButton.backgroundColor = UIColor.black
         
+        self.view.addSubview(bottleneckButton)
+        let bottleneckGesture = UITapGestureRecognizer(target: self, action: #selector(bottleneck_action))
+        bottleneckGesture.numberOfTapsRequired = 1
+        bottleneckGesture.delegate = self
+        bottleneckButton.addGestureRecognizer(bottleneckGesture)
         
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -180,16 +190,16 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
         
     }
     
-
-//     Handling Drop
-//    1. Type of Object the drop zone can accept
-//    2. Type of drop proposal (copy, move, forbidden, cancel)
-//    3. What to do when drop is performed. Call custom methods for each drop objects
+    
+    //     Handling Drop
+    //    1. Type of Object the drop zone can accept
+    //    2. Type of drop proposal (copy, move, forbidden, cancel)
+    //    3. What to do when drop is performed. Call custom methods for each drop objects
     
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
         return session.canLoadObjects(ofClass: UIImage.self)
     }
-
+    
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
         return UIDropProposal(operation: .move)
     }
@@ -223,18 +233,18 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
                     shapeName = "rounded rectangle"
                 }
                 self.add_a_shape(shape: shapeName, x: dropPoint.x - 50, y: dropPoint.y - 50, width: 100, height: 100, withID:self.getUniqueID(), withText: "Insert Text", withCircleID: [self.getUniqueID(),self.getUniqueID(),self.getUniqueID(),self.getUniqueID()] )
-
+                
             }
         }
     }
     
-//    Generates unique ID for the shapes
+    //    Generates unique ID for the shapes
     func getUniqueID() -> Int{
         HomeViewController.uniqueProcessID += 1
         return HomeViewController.uniqueProcessID
     }
     
-//  Function to create a shape. Pass shapeName, position, width and height, unique Id and text to be entered in the middle
+    //  Function to create a shape. Pass shapeName, position, width and height, unique Id and text to be entered in the middle
     
     func add_a_shape(shape: String , x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, withID id: Int, withText text: String, withCircleID IDs: [Int]){
         //choose frame size
@@ -260,7 +270,7 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
         }
         demoView.delete?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deletegesture)))
         
-        
+        demoView.btlneckBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(bottleneckgesture)))
         
         data.viewsAndData[demoView] = uiViewData(x: Double(x), y: Double(y), width: Double(width), height: Double(height), shape: shape, text: demoView.textView.text, id: id, leftID: IDs[0], topID: IDs[1], rightID: IDs[2], bottomID: IDs[3])
         data.idAndAny[id] = demoView
@@ -325,7 +335,7 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
         }
         
     }
-
+    
     @objc func didClickMenu()
     {
         print("Registered click")
@@ -397,6 +407,24 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
     }
     
     
+    @objc func bottleneckgesture(_ sender: UITapGestureRecognizer){
+        if isTimeSet == false {
+            let vc = setTimeViewController()
+            vc.delegate = self
+            self.navigationController?.pushViewController(vc,animated:true)
+        }
+        else{
+            let vc = recordBottleneckViewController()
+            let view = sender.view as? CircleView
+            vc.inputProcessView = view?.myView
+//            vc.seconds = Int(self.countdownValue!)
+            vc.seconds = 5
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+    }
+    
+    
     //gesture to recognize tap in dropZone which contains all the diagrams
     @objc func singleTap(_ sender: UITapGestureRecognizer) {
         if firstCircle == nil{
@@ -430,6 +458,10 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
         }
     }
     
+    @objc func bottleneck_action(_ sender: UITapGestureRecognizer) {
+        let vc = BottleneckViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     
     @objc func take_screenshot(_ sender: UITapGestureRecognizer) {
@@ -445,22 +477,6 @@ class HomeViewController: UIViewController, UIDropInteractionDelegate, UIScrollV
     
     
     @objc func save_action(_ sender: UITapGestureRecognizer) {
-        //        print(idAndAny)
-        //        let alert = UIAlertController(title: "Enter the Filename", message: nil, preferredStyle: .alert)
-        //        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        //
-        //        alert.addTextField(configurationHandler: { textField in
-        //            textField.placeholder = "Input your file name here..."
-        //        })
-        //
-        //        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-        //
-        //            if let name = alert.textFields?.first?.text {
-        //                print("File name: \(name)")
-        //            }
-        //        }))
-        //
-        //        self.present(alert, animated: true)
         
         let jsonEncoder = JSONEncoder()
         //jsonEncoder.outputFormatting = .prettyPrinted
@@ -607,5 +623,17 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelHandler))
         
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+
+extension HomeViewController: setTimeControllerDelegate
+{
+    
+    func setCountdown(with value: Double)
+    {
+        self.isTimeSet = true
+        self.countdownValue = value
+        print("time in home is \(self.countdownValue)")
     }
 }

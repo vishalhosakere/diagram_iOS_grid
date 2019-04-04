@@ -62,6 +62,9 @@ class CircleView : UIView , UIGestureRecognizerDelegate {
         else if type == "time"{
             myImage = UIImage(named: "time")?.cgImage
         }
+        else if type == "bottleneck"{
+            myImage = UIImage(named: "bottleneck")?.cgImage
+        }
         imageLayer.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         imageLayer.contents = myImage
     }

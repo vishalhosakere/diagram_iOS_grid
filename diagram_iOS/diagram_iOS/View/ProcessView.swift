@@ -10,7 +10,7 @@ import UIKit
 
 class processView: UIView , UIGestureRecognizerDelegate {
     
-    private var shape: String?
+    var shape: String?
     
     var kResizeThumbSize : CGFloat = 45.0
     var isResizingLR = false
@@ -20,12 +20,12 @@ class processView: UIView , UIGestureRecognizerDelegate {
     var touchStart = CGPoint.zero
     let borderlayer = CAShapeLayer()
     let textView = UITextView()
-    let textLabel = UITextField()
+//    let textLabel = UITextField()
     var circles = [CircleView]()
     var delete : CircleView?
     var processID : Int?
     var myText :String?
-    
+    var btlneckBtn : CircleView!
     //    let mytapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(myTapAction))
     
     
@@ -174,35 +174,35 @@ class processView: UIView , UIGestureRecognizerDelegate {
         self.addSubview(textView)
     }
     
-    func createTextView_1() {
-        
-        textLabel.text = "Hello"
-        textLabel.frame = CGRect(x: 0.0, y: self.frame.size.height/2 - 20.0, width: self.frame.size.width, height: 40.0)
-        //        textView.frame = CGRect(x: 20.0, y: 20.0, width: self.bounds.size.width - 20, height: self.bounds.size.height - 20.0)
-        textLabel.textAlignment = NSTextAlignment.center
-        textLabel.backgroundColor = UIColor.clear
-        textLabel.isUserInteractionEnabled = true
-        textLabel.center = CGPoint(x: self.bounds.size.width / 2, y: self.bounds.size.height / 2)
-        //        textLabel = 2
-        textLabel.sizeToFit()
-        //        textLabel.lines
-        //        textLabel.textContainer.exclusionPaths = [path]
-        self.addSubview(textLabel)
-    }
+//    func createTextView_1() {
+//
+//        textLabel.text = "Hello"
+//        textLabel.frame = CGRect(x: 0.0, y: self.frame.size.height/2 - 20.0, width: self.frame.size.width, height: 40.0)
+//        //        textView.frame = CGRect(x: 20.0, y: 20.0, width: self.bounds.size.width - 20, height: self.bounds.size.height - 20.0)
+//        textLabel.textAlignment = NSTextAlignment.center
+//        textLabel.backgroundColor = UIColor.clear
+//        textLabel.isUserInteractionEnabled = true
+//        textLabel.center = CGPoint(x: self.bounds.size.width / 2, y: self.bounds.size.height / 2)
+//        //        textLabel = 2
+//        textLabel.sizeToFit()
+//        //        textLabel.lines
+//        //        textLabel.textContainer.exclusionPaths = [path]
+//        self.addSubview(textLabel)
+//    }
     
-    
-    func createTextLayer() {
-        let textLayer = CATextLayer()
-        textLayer.string = "WOW!\nThis is text on a layer!"
-        textLayer.foregroundColor = UIColor.white.cgColor
-        textLayer.font = UIFont(name: "Avenir", size: 15.0)
-        textLayer.fontSize = 15.0
-        textLayer.alignmentMode = CATextLayerAlignmentMode.center
-        textLayer.backgroundColor = UIColor.orange.cgColor
-        textLayer.frame = CGRect(x: 0.0, y: self.frame.size.height/2 - 20.0, width: self.frame.size.width, height: 40.0)
-        textLayer.contentsScale = UIScreen.main.scale
-        self.layer.addSublayer(textLayer)
-    }
+//
+//    func createTextLayer() {
+//        let textLayer = CATextLayer()
+//        textLayer.string = "WOW!\nThis is text on a layer!"
+//        textLayer.foregroundColor = UIColor.white.cgColor
+//        textLayer.font = UIFont(name: "Avenir", size: 15.0)
+//        textLayer.fontSize = 15.0
+//        textLayer.alignmentMode = CATextLayerAlignmentMode.center
+//        textLayer.backgroundColor = UIColor.orange.cgColor
+//        textLayer.frame = CGRect(x: 0.0, y: self.frame.size.height/2 - 20.0, width: self.frame.size.width, height: 40.0)
+//        textLayer.contentsScale = UIScreen.main.scale
+//        self.layer.addSublayer(textLayer)
+//    }
     
     
     func createCircles(_ id1: Int, _ id2: Int, _ id3: Int,  _ id4: Int){
@@ -236,6 +236,12 @@ class processView: UIView , UIGestureRecognizerDelegate {
         self.delete = del
         superview?.addSubview(del)
         
+        btlneckBtn = CircleView(frame: CGRect(x: 0, y: 0, width: 40, height: 40), ofType: "bottleneck")
+        btlneckBtn?.center = CGPoint(x: self.center.x + (self.bounds.size.width / 2) + 20 , y: self.center.y - (self.bounds.size.height / 2) - 20)
+        btlneckBtn?.myView = self
+        btlneckBtn?.backgroundColor = .clear
+        superview?.addSubview(btlneckBtn)
+        
     }
     
     func update_circle_views(){
@@ -244,7 +250,7 @@ class processView: UIView , UIGestureRecognizerDelegate {
         circles[2].center = CGPoint(x: self.center.x + (self.bounds.size.width / 2) + 20 , y: self.center.y)
         circles[3].center = CGPoint(x: self.center.x, y: self.center.y + (self.bounds.size.height / 2) + 20)
         delete?.center = CGPoint(x: self.center.x - (self.bounds.size.width / 2) - 20 , y: self.center.y - (self.bounds.size.height / 2) - 20)
-        
+        btlneckBtn.center = CGPoint(x: self.center.x + (self.bounds.size.width / 2) + 20 , y: self.center.y - (self.bounds.size.height / 2) - 20)
         
         
         circles[0].mainPoint = CGPoint(x: self.center.x - (self.bounds.size.width / 2) , y: self.center.y)
@@ -308,7 +314,7 @@ class processView: UIView , UIGestureRecognizerDelegate {
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
-        print("drawing here")
+//        print("drawing here")
         // Drawing code
         if self.shape == "triangle" {
             self.createTriangle()
@@ -425,7 +431,7 @@ class processView: UIView , UIGestureRecognizerDelegate {
     
     //handle the resize, pan and move all the view appropriately
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touches moved")
+//        print("touches moved")
         let touchPoint =  touches.first?.location(in: self)
         let previous = touches.first?.previousLocation(in: self)
         
